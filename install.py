@@ -9,16 +9,19 @@ import os
 from pathlib import Path
 
 
-def run_command(command, description):
+def run_command(command, description, silent=False):
     """Run a command and handle errors."""
-    print(f"Running: {description}")
+    if not silent:
+        print(f"Running: {description}")
     try:
         result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
-        print(f"✓ {description} completed successfully")
+        if not silent:
+            print(f"✓ {description} completed successfully")
         return True
     except subprocess.CalledProcessError as e:
-        print(f"✗ {description} failed:")
-        print(f"  Error: {e.stderr}")
+        if not silent:
+            print(f"✗ {description} failed:")
+            print(f"  Error: {e.stderr}")
         return False
 
 
@@ -38,16 +41,29 @@ def install_dependencies():
     """Install required Python packages."""
     print("\nInstalling dependencies...")
     
-    # Check if requirements.txt exists
-    if not Path("requirements.txt").exists():
-        print("✗ requirements.txt not found")
-        return False
+    # Check if uv is available
+    uv_available = run_command("uv --version", "Checking uv availability", silent=True)
     
-    # Install packages
-    success = run_command(
-        f"{sys.executable} -m pip install -r requirements.txt",
-        "Installing Python packages"
-    )
+    if uv_available:
+        print("✓ uv detected, using uv for installation")
+        # Check if pyproject.toml exists
+        if Path("pyproject.toml").exists():
+            success = run_command("uv sync", "Installing packages with uv")
+        else:
+            print("✗ pyproject.toml not found")
+            return False
+    else:
+        print("⚠ uv not found, falling back to pip")
+        # Check if requirements.txt exists
+        if not Path("requirements.txt").exists():
+            print("✗ requirements.txt not found")
+            return False
+        
+        # Install packages with pip
+        success = run_command(
+            f"{sys.executable} -m pip install -r requirements.txt",
+            "Installing Python packages with pip"
+        )
     
     return success
 

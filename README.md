@@ -15,6 +15,35 @@ A Python application that extracts text from PDF files and creates summaries opt
 
 ## Installation
 
+### Option 1: Using uv (Recommended)
+
+1. **Install uv** (if not already installed):
+   ```bash
+   # Windows
+   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+   
+   # macOS/Linux
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+2. **Clone or download the project files**
+
+3. **Install dependencies:**
+   ```bash
+   uv sync
+   ```
+
+4. **Activate the virtual environment:**
+   ```bash
+   # Windows
+   .venv\Scripts\activate
+   
+   # macOS/Linux
+   source .venv/bin/activate
+   ```
+
+### Option 2: Using pip
+
 1. **Clone or download the project files**
 
 2. **Install Python dependencies:**
@@ -67,6 +96,20 @@ A Python application that extracts text from PDF files and creates summaries opt
 
 ### Basic Usage
 
+**Using uv (Recommended):**
+```bash
+# Activate virtual environment
+.venv\Scripts\activate  # Windows
+source .venv/bin/activate  # macOS/Linux
+
+# Run the application
+python main.py path/to/your/document.pdf
+
+# Or run directly with uv
+uv run python main.py path/to/your/document.pdf
+```
+
+**Using pip:**
 ```bash
 python main.py path/to/your/document.pdf
 ```

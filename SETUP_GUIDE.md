@@ -4,6 +4,33 @@
 
 **Note**: This application requires an OpenAI API key to function.
 
+### Option 1: Using uv (Recommended)
+
+### 1. Install uv
+```bash
+# Windows
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### 2. Install Dependencies
+```bash
+uv sync
+```
+
+### 3. Activate Virtual Environment
+```bash
+# Windows
+.venv\Scripts\activate
+
+# macOS/Linux
+source .venv/bin/activate
+```
+
+### Option 2: Using pip
+
 ### 1. Install Dependencies
 ```bash
 pip install -r requirements.txt
